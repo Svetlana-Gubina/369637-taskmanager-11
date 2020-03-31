@@ -2,6 +2,17 @@
 .DS_Store
 Thumbs.db
 
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.woff binary
+*.woff2 binary
+
+# Файлы и папки операционной системы
+.DS_Store
+Thumbs.db
+
 # Файлы редактора
 .idea
 *.sublime*
@@ -11,4 +22,9 @@ Thumbs.db
 *.log*
 node_modules/
 
-# Файлы сборки (допишите самостоятельно)
+# Папка с собранными файлами проекта
+build/
+
+#Файлы сборки
+public/*js
+public/*js.map
