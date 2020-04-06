@@ -1,71 +1,68 @@
-export const getMainFilter = () => {
-  return `<section class="main__filter filter container">
-  <input
+export const makeFilter = ({filters}) => {
+  return `<input
     type="radio"
-    id="filter__all"
+    id="filter__${filters.all.title.toLowerCase()}}"
     class="filter__input visually-hidden"
     name="filter"
     checked
   />
   <label for="filter__all" class="filter__label">
-    All <span class="filter__all-count">13</span></label
+    ${filters.all.title} <span class="filter__${filters.all.title.toLowerCase()}-count">${filters.all.count}</span></label
   >
   <input
     type="radio"
-    id="filter__overdue"
+    id="filter__${filters.overdue.title.toLowerCase()}"
     class="filter__input visually-hidden"
     name="filter"
     disabled
   />
   <label for="filter__overdue" class="filter__label"
-    >Overdue <span class="filter__overdue-count">0</span></label
+    >${filters.overdue.title} <span class="filter__${filters.overdue.title.toLowerCase()}-count">${filters.overdue.count}</span></label
   >
   <input
     type="radio"
-    id="filter__today"
+    id="filter__${filters.today.title.toLowerCase()}"
     class="filter__input visually-hidden"
     name="filter"
     disabled
   />
   <label for="filter__today" class="filter__label"
-    >Today <span class="filter__today-count">0</span></label
+    >${filters.today.title} <span class="filter__${filters.today.title.toLowerCase()}-count">${filters.today.count}</span></label
   >
   <input
     type="radio"
-    id="filter__favorites"
+    id="filter__${filters.favorites.title.toLowerCase()}"
     class="filter__input visually-hidden"
     name="filter"
   />
   <label for="filter__favorites" class="filter__label"
-    >Favorites <span class="filter__favorites-count">1</span></label
+    >${filters.favorites.title} <span class="filter__${filters.favorites.title.toLowerCase()}-count">${filters.favorites.count}</span></label
   >
   <input
     type="radio"
-    id="filter__repeating"
+    id="filter__${filters.repeating.title.toLowerCase()}"
     class="filter__input visually-hidden"
     name="filter"
   />
   <label for="filter__repeating" class="filter__label"
-    >Repeating <span class="filter__repeating-count">1</span></label
+    >${filters.repeating.title} <span class="filter__${filters.repeating.title.toLowerCase()}-count">${filters.repeating.count}</span></label
   >
   <input
     type="radio"
-    id="filter__tags"
+    id="filter__${filters.tags.title.toLowerCase()}"
     class="filter__input visually-hidden"
     name="filter"
   />
   <label for="filter__tags" class="filter__label"
-    >Tags <span class="filter__tags-count">1</span></label
+    >${filters.tags.title} <span class="filter__${filters.tags.title.toLowerCase()}-count">${filters.tags.count}</span></label
   >
   <input
     type="radio"
-    id="filter__archive"
+    id="filter__${filters.archive.title.toLowerCase()}"
     class="filter__input visually-hidden"
     name="filter"
   />
   <label for="filter__archive" class="filter__label"
-    >Archive <span class="filter__archive-count">115</span></label
-  >
-</section>
-`;
+    >${filters.archive.title} <span class="filter__${filters.archive.title.toLowerCase()}-count">${filters.archive.count}</span></label
+  >`.trim();
 };
