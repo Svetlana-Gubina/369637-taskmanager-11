@@ -1,3 +1,4 @@
+
 export const makeTask = ({description, dueDate, hours, minutes, tags, color, repeatingDays}) => {
   return `<article class="card card--${color} ${Object.values(repeatingDays).some((elem) => elem) ? `card--repeat` : ``}">
     <div class="card__form">
@@ -56,4 +57,5 @@ export const makeTask = ({description, dueDate, hours, minutes, tags, color, rep
       </div>
     </div>
   </article>`.trim();
+
 };

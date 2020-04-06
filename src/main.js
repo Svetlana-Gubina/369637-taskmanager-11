@@ -51,3 +51,4 @@ const renderNewTasks = () => {
   return allTasks;
 };
 button.addEventListener(`click`, renderNewTasks);
+
