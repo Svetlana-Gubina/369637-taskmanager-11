@@ -7,10 +7,9 @@ import LoadMore from './components/load-more.js';
 // import BoardTasks from './components/board-tasks.js';
 import {getSampleData} from './data.js';
 import {Position, render} from './utils.js';
-import {makeTask} from './components/task-card.js';
-// import Task from './components/task.js';
-// import TaskEdit from './components/task-edit.js';
-
+import Task from './components/task.js';
+import TaskEdit from './components/task-edit.js';
+// import NoTasks from './components/no-task.js';
 
 const main = document.querySelector(`.main`);
 const mainControl = document.querySelector(`.main__control`);
@@ -28,25 +27,62 @@ render(main, board.getElement(), Position.BEFOREEND);
 const boardTasks = document.querySelector(`.board__tasks`);
 
 const {filters, tasks: allTasks} = getSampleData();
-let shownTasks = allTasks.splice(0, 8);
-const getTasksToRender = () => {
-  if (shownTasks.length) {
-    return shownTasks.map(makeTask).join(``);
-  }
-  return ``;
+const renderTask = (task) => {
+  const taskComponent = new Task(task);
+  const taskEditComponent = new TaskEdit(task);
+
+  const onEscKeyDown = (evt) => {
+    if (evt.key === `Escape` || evt.key === `Esc`) {
+      boardTasks.replaceChild(taskComponent.getElement(), taskEditComponent.getElement());
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    }
+  };
+
+  taskComponent.getElement()
+    .querySelector(`.card__btn--edit`)
+    .addEventListener(`click`, () => {
+      boardTasks.replaceChild(taskEditComponent.getElement(), taskComponent.getElement());
+      document.addEventListener(`keydown`, onEscKeyDown);
+    });
+
+  // taskEditComponent.getElement().querySelector(`textarea`)
+  //     .addEventListener(`focus`, () => {
+  //       document.removeEventListener(`keydown`, onEscKeyDown);
+  //     });
+  // taskEditComponent.getElement().querySelector(`textarea`)
+  //     .addEventListener(`blur`, () => {
+  //       document.addEventListener(`keydown`, onEscKeyDown);
+  //     });
+
+  taskEditComponent.getElement()
+      .querySelector(`.card__form`)
+      .addEventListener(`submit`, () => {
+        boardTasks.replaceChild(taskComponent.getElement(), taskEditComponent.getElement());
+        document.removeEventListener(`keydown`, onEscKeyDown);
+      });
+
+
+  render(boardTasks, taskComponent.getElement(), Position.BEFOREEND);
 };
 
-boardTasks.insertAdjacentHTML(`beforeend`, getTasksToRender());
+let shownTasks = allTasks.splice(0, 8);
+if (shownTasks.length) {
+  shownTasks.forEach((taskMock) => renderTask(taskMock));
+}
+// else {
+//   render(board.getElement(), .getElement(), Position.BEFOREEND);
+// }
+
 const filterContainer = document.querySelector(`.filter`);
 const filtersElements = new Filters(filters);
 filtersElements.getElement(filterContainer);
 const loadMore = new LoadMore();
 render(board.getElement(), loadMore.getElement(), Position.BEFOREEND);
-const button = document.querySelector(`.load-more`);
 
+const button = document.querySelector(`.load-more`);
 const renderNewTasks = () => {
-  let moreTasks = allTasks.splice(0, 7).map(makeTask).join(``);
-  boardTasks.insertAdjacentHTML(`beforeend`, moreTasks);
+  let moreTasks = allTasks.splice(0, 7);
+  moreTasks.forEach((taskMock) => renderTask(taskMock));
   if (allTasks.length === 0) {
     button.style = `display: none`;
   }
