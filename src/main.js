@@ -1,34 +1,34 @@
-import {getBoard} from './components/board.js';
-import {getBoardTasks} from './components/boardTasks.js';
-import {getEditTaskCard} from './components/editTaskCard.js';
-import {getFilterSection} from './components/filterSection.js';
-import {getLoadMore} from './components/loadMore.js';
-import {makeFilter} from './components/mainFilter.js';
-import {getMenu} from './components/menu.js';
-import {getSearch} from './components/search.js';
-import {makeTask} from './components/taskCard.js';
-import {getSampleData, getTask} from './data.js';
+import Menu from './components/menu.js';
+import Search from './components/search.js';
+import FilterSection from './components/filter-section.js';
+import Board from './components/board.js';
+import Filters from './components/main-filter.js';
+import LoadMore from './components/load-more.js';
+// import BoardTasks from './components/board-tasks.js';
+import {getSampleData} from './data.js';
+import {Position, render} from './utils.js';
+import {makeTask} from './components/task-card.js';
+// import Task from './components/task.js';
+// import TaskEdit from './components/task-edit.js';
 
-export const render = (container, template, place) => {
-  container.insertAdjacentHTML(place, template);
-};
 
 const main = document.querySelector(`.main`);
 const mainControl = document.querySelector(`.main__control`);
+const menu = new Menu();
 
-render(mainControl, getMenu(), `beforeend`);
+render(mainControl, menu.getElement(), Position.BEFOREEND);
 let labels = document.querySelectorAll(`.control__label`);
 labels[0].classList.add(`control__label--new-task`);
-render(main, getSearch(), `beforeend`);
-render(main, getFilterSection(), `beforeend`);
-render(main, getBoard(), `beforeend`);
-const board = document.querySelector(`.board`);
-render(board, getBoardTasks(), `beforeend`);
+const search = new Search();
+render(main, search.getElement(), Position.BEFOREEND);
+const filterSection = new FilterSection();
+render(main, filterSection.getElement(), Position.BEFOREEND);
+const board = new Board();
+render(main, board.getElement(), Position.BEFOREEND);
 const boardTasks = document.querySelector(`.board__tasks`);
 
-const {tasks: allTasks, filters} = getSampleData();
+const {filters, tasks: allTasks} = getSampleData();
 let shownTasks = allTasks.splice(0, 8);
-
 const getTasksToRender = () => {
   if (shownTasks.length) {
     return shownTasks.map(makeTask).join(``);
@@ -36,15 +36,17 @@ const getTasksToRender = () => {
   return ``;
 };
 
-render(boardTasks, getEditTaskCard(getTask()), `afterbegin`);
-render(boardTasks, getTasksToRender(), `beforeend`);
+boardTasks.insertAdjacentHTML(`beforeend`, getTasksToRender());
 const filterContainer = document.querySelector(`.filter`);
-render(filterContainer, makeFilter({filters}), `afterbegin`);
-render(board, getLoadMore(), `beforeend`);
+const filtersElements = new Filters(filters);
+filtersElements.getElement(filterContainer);
+const loadMore = new LoadMore();
+render(board.getElement(), loadMore.getElement(), Position.BEFOREEND);
 const button = document.querySelector(`.load-more`);
 
 const renderNewTasks = () => {
-  render(boardTasks, allTasks.splice(0, 7).map(makeTask).join(``), `beforeend`);
+  let moreTasks = allTasks.splice(0, 7).map(makeTask).join(``);
+  boardTasks.insertAdjacentHTML(`beforeend`, moreTasks);
   if (allTasks.length === 0) {
     button.style = `display: none`;
   }
