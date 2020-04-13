@@ -1,6 +1,17 @@
+import AbstractComponent from './abstractComponent.js';
 
-export const makeTask = ({description, dueDate, hours, minutes, tags, color, repeatingDays}) => {
-  return `<article class="card card--${color} ${Object.values(repeatingDays).some((elem) => elem) ? `card--repeat` : ``}">
+export default class Task extends AbstractComponent {
+  constructor({description, dueDate, tags, color, repeatingDays}) {
+    super();
+    this._description = description;
+    this._dueDate = new Date(dueDate);
+    this._tags = tags;
+    this._color = color;
+    this._repeatingDays = repeatingDays;
+  }
+
+  getTemplate() {
+    return `<article class="card card--${this._color} ${Object.values(this._repeatingDays).some((elem) => elem) ? `card--repeat` : ``}">
     <div class="card__form">
       <div class="card__inner">
         <div class="card__control">
@@ -25,7 +36,7 @@ export const makeTask = ({description, dueDate, hours, minutes, tags, color, rep
         </div>
 
         <div class="card__textarea-wrap">
-          <p class="card__text">${description}</p>
+          <p class="card__text">${this._description}</p>
         </div>
 
         <div class="card__settings">
@@ -33,8 +44,8 @@ export const makeTask = ({description, dueDate, hours, minutes, tags, color, rep
             <div class="card__dates">
               <div class="card__date-deadline">
                 <p class="card__input-deadline-wrap">
-                  <span class="card__date">${new Date(dueDate).toDateString()}</span>
-                  <span class="card__time">${hours}:${minutes} PM</span>
+                  <span class="card__date">${new Date(this._dueDate).toDateString()}</span>
+                  <span class="card__time">${this._dueDate.getHours()}:${this._dueDate.getMinutes()} PM</span>
                 </p>
               </div>
             </div>
@@ -43,7 +54,7 @@ export const makeTask = ({description, dueDate, hours, minutes, tags, color, rep
               <div class="card__hashtag-list">
               <span class="card__hashtag-inner">
               <span class="card__hashtag-name">
-                ${tags.map((tag) => `<span class="card__hashtag-inner">
+                ${this._tags.map((tag) => `<span class="card__hashtag-inner">
                 <span class="card__hashtag-name">
                   #${tag}
                 </span>
@@ -56,6 +67,6 @@ export const makeTask = ({description, dueDate, hours, minutes, tags, color, rep
         </div>
       </div>
     </div>
-  </article>`.trim();
-
-};
+  </article>`;
+  }
+}
