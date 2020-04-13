@@ -9,7 +9,7 @@ import {getSampleData} from './data.js';
 import {Position, render} from './utils.js';
 import Task from './components/task.js';
 import TaskEdit from './components/task-edit.js';
-// import NoTasks from './components/no-task.js';
+import NoTasks from './components/no-task.js';
 
 const main = document.querySelector(`.main`);
 const mainControl = document.querySelector(`.main__control`);
@@ -45,14 +45,14 @@ const renderTask = (task) => {
       document.addEventListener(`keydown`, onEscKeyDown);
     });
 
-  // taskEditComponent.getElement().querySelector(`textarea`)
-  //     .addEventListener(`focus`, () => {
-  //       document.removeEventListener(`keydown`, onEscKeyDown);
-  //     });
-  // taskEditComponent.getElement().querySelector(`textarea`)
-  //     .addEventListener(`blur`, () => {
-  //       document.addEventListener(`keydown`, onEscKeyDown);
-  //     });
+  taskEditComponent.getElement().querySelector(`textarea`)
+      .addEventListener(`focus`, () => {
+        document.removeEventListener(`keydown`, onEscKeyDown);
+      });
+  taskEditComponent.getElement().querySelector(`textarea`)
+      .addEventListener(`blur`, () => {
+        document.addEventListener(`keydown`, onEscKeyDown);
+      });
 
   taskEditComponent.getElement()
       .querySelector(`.card__form`)
@@ -68,10 +68,10 @@ const renderTask = (task) => {
 let shownTasks = allTasks.splice(0, 8);
 if (shownTasks.length) {
   shownTasks.forEach((taskMock) => renderTask(taskMock));
+} else {
+  const noTasks = new NoTasks();
+  render(board.getElement(), noTasks.getElement(), Position.BEFOREEND);
 }
-// else {
-//   render(board.getElement(), .getElement(), Position.BEFOREEND);
-// }
 
 const filterContainer = document.querySelector(`.filter`);
 const filtersElements = new Filters(filters);
