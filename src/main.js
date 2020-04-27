@@ -1,53 +1,73 @@
-import {getBoard} from './components/board.js';
-import {getBoardTasks} from './components/boardTasks.js';
-import {getEditTaskCard} from './components/editTaskCard.js';
-import {getFilterSection} from './components/filterSection.js';
-import {getLoadMore} from './components/loadMore.js';
-import {makeFilter} from './components/mainFilter.js';
-import {getMenu} from './components/menu.js';
+import {createBoardTemplate} from './components/board.js';
+// import {getBoardTasks} from './components/boardTasks.js';
+import {createTaskEditTemplate} from './components/editTaskCard.js';
+import {createFilterTemplate} from './components/filterSection.js';
+import {createLoadMoreButtonTemplate} from './components/loadMore.js';
+// import {makeFilter} from './components/mainFilter.js';
+import {createSiteMenuTemplate} from './components/menu.js';
 import {getSearch} from './components/search.js';
-import {makeTask} from './components/taskCard.js';
-import {getSampleData, getTask} from './data.js';
+import {createTaskTemplate} from './components/taskCard.js';
+// import {getSampleData, getTask} from './data.js';
+
+
+// let labels = document.querySelectorAll(`.control__label`);
+// labels[0].classList.add(`control__label--new-task`);
+// render(main, getFilterSection(), `beforeend`);
+
+// render(board, getBoardTasks(), `beforeend`);
+// const boardTasks = document.querySelector(`.board__tasks`);
+//
+// const {tasks: allTasks, filters} = getSampleData();
+// let shownTasks = allTasks.splice(0, 8);
+//
+// const getTasksToRender = () => {
+//   if (shownTasks.length) {
+//     return shownTasks.map(makeTask).join(``);
+//   }
+//   return ``;
+// };
+
+// render(boardTasks, getEditTaskCard(getTask()), `afterbegin`);
+// render(boardTasks, getTasksToRender(), `beforeend`);
+// const filterContainer = document.querySelector(`.filter`);
+// render(filterContainer, makeFilter({filters}), `afterbegin`);
+// render(board, getLoadMore(), `beforeend`);
+// const button = document.querySelector(`.load-more`);
+//
+// const renderNewTasks = () => {
+//   render(boardTasks, allTasks.splice(0, 7).map(makeTask).join(``), `beforeend`);
+//   if (allTasks.length === 0) {
+//     button.style = `display: none`;
+//   }
+//   return allTasks;
+// };
+// button.addEventListener(`click`, renderNewTasks);
+const TASK_COUNT = 3;
+
 
 export const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
 };
 
-const main = document.querySelector(`.main`);
-const mainControl = document.querySelector(`.main__control`);
+const siteMainElement = document.querySelector(`.main`);
+const siteHeaderElement = siteMainElement.querySelector(`.main__control`);
 
-render(mainControl, getMenu(), `beforeend`);
-let labels = document.querySelectorAll(`.control__label`);
-labels[0].classList.add(`control__label--new-task`);
-render(main, getSearch(), `beforeend`);
-render(main, getFilterSection(), `beforeend`);
-render(main, getBoard(), `beforeend`);
-const board = document.querySelector(`.board`);
-render(board, getBoardTasks(), `beforeend`);
-const boardTasks = document.querySelector(`.board__tasks`);
+render(siteHeaderElement, createSiteMenuTemplate(), `beforeend`);
+render(siteMainElement, getSearch(), `beforeend`);
+render(siteMainElement, createFilterTemplate(), `beforeend`);
+render(siteMainElement, createBoardTemplate(), `beforeend`);
 
-const {tasks: allTasks, filters} = getSampleData();
-let shownTasks = allTasks.splice(0, 8);
+const taskListElement = siteMainElement.querySelector(`.board__tasks`);
+const boardElement = siteMainElement.querySelector(`.board`);
+// const board = document.querySelector(`.board`);
+// const boardTasks = document.querySelector(`.board__tasks`);
+render(taskListElement, createTaskEditTemplate(), `beforeend`);
 
-const getTasksToRender = () => {
-  if (shownTasks.length) {
-    return shownTasks.map(makeTask).join(``);
-  }
-  return ``;
-};
+for (let i = 0; i < TASK_COUNT; i++) {
+  render(taskListElement, createTaskTemplate(), `beforeend`);
+}
 
-render(boardTasks, getEditTaskCard(getTask()), `afterbegin`);
-render(boardTasks, getTasksToRender(), `beforeend`);
-const filterContainer = document.querySelector(`.filter`);
-render(filterContainer, makeFilter({filters}), `afterbegin`);
-render(board, getLoadMore(), `beforeend`);
-const button = document.querySelector(`.load-more`);
+render(boardElement, createLoadMoreButtonTemplate(), `beforeend`);
 
-const renderNewTasks = () => {
-  render(boardTasks, allTasks.splice(0, 7).map(makeTask).join(``), `beforeend`);
-  if (allTasks.length === 0) {
-    button.style = `display: none`;
-  }
-  return allTasks;
-};
-button.addEventListener(`click`, renderNewTasks);
+// render(mainControl, getMenu(), `beforeend`);
+
