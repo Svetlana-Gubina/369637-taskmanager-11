@@ -24,6 +24,7 @@ export const getTask = () => ({
 
 const TASK_COUNT = getRandomInteger(1, 30);
 
+
 export const getSampleData = () => {
   const randomTasks = new Array(TASK_COUNT).fill().map(() => getTask());
 

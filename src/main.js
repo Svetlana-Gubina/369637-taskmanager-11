@@ -3,11 +3,9 @@ import {createBoardTemplate} from './components/board.js';
 import {createTaskEditTemplate} from './components/editTaskCard.js';
 import {createFilterTemplate} from './components/filterSection.js';
 import {createLoadMoreButtonTemplate} from './components/loadMore.js';
-// import {makeFilter} from './components/mainFilter.js';
 import {createSiteMenuTemplate} from './components/menu.js';
-import {getSearch} from './components/search.js';
 import {createTaskTemplate} from './components/taskCard.js';
-// import {getSampleData, getTask} from './data.js';
+import {getSampleData, getTask} from './data.js';
 
 
 // let labels = document.querySelectorAll(`.control__label`);
@@ -53,8 +51,9 @@ const siteMainElement = document.querySelector(`.main`);
 const siteHeaderElement = siteMainElement.querySelector(`.main__control`);
 
 render(siteHeaderElement, createSiteMenuTemplate(), `beforeend`);
-render(siteMainElement, getSearch(), `beforeend`);
 render(siteMainElement, createFilterTemplate(), `beforeend`);
+
+
 render(siteMainElement, createBoardTemplate(), `beforeend`);
 
 const taskListElement = siteMainElement.querySelector(`.board__tasks`);
@@ -68,6 +67,3 @@ for (let i = 0; i < TASK_COUNT; i++) {
 }
 
 render(boardElement, createLoadMoreButtonTemplate(), `beforeend`);
-
-// render(mainControl, getMenu(), `beforeend`);
-
