@@ -1,77 +1,32 @@
-// export const makeTask = ({description, dueDate, hours, minutes, tags, color, repeatingDays}) => {
-//   return `<article class="card card--${color} ${Object.values(repeatingDays).some((elem) => elem) ? `card--repeat` : ``}">
-//     <div class="card__form">
-//       <div class="card__inner">
-//         <div class="card__control">
-//           <button type="button" class="card__btn card__btn--edit">
-//             edit
-//           </button>
-//           <button type="button" class="card__btn card__btn--archive">
-//             archive
-//           </button>
-//           <button
-//             type="button"
-//             class="card__btn card__btn--favorites card__btn--disabled"
-//           >
-//             favorites
-//           </button>
-//         </div>
-//
-//         <div class="card__color-bar">
-//           <svg class="card__color-bar-wave" width="100%" height="10">
-//             <use xlink:href="#wave"></use>
-//           </svg>
-//         </div>
-//
-//         <div class="card__textarea-wrap">
-//           <p class="card__text">${description}</p>
-//         </div>
-//
-//         <div class="card__settings">
-//           <div class="card__details">
-//             <div class="card__dates">
-//               <div class="card__date-deadline">
-//                 <p class="card__input-deadline-wrap">
-//                   <span class="card__date">${new Date(dueDate).toDateString()}</span>
-//                   <span class="card__time">${hours}:${minutes} PM</span>
-//                 </p>
-//               </div>
-//             </div>
-//
-//             <div class="card__hashtag">
-//               <div class="card__hashtag-list">
-//               <span class="card__hashtag-inner">
-//               <span class="card__hashtag-name">
-//                 ${tags.map((tag) => `<span class="card__hashtag-inner">
-//                 <span class="card__hashtag-name">
-//                   #${tag}
-//                 </span>
-//               </span>`).join(``)}
-//               </span>
-//             </span>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   </article>`.trim();
-// };
-export const createTaskTemplate = () => {
+import {MONTH_NAMES} from "../constants.js";
+import {formatTime} from "../utils.js";
+
+export const createTaskTemplate = (task) => {
+  const {description, dueDate, color, repeatingDays, isArchive, isFavorite} = task;
+  const isExpired = dueDate instanceof Date && dueDate < Date.now();
+  const isDateShowing = !!dueDate;
+
+  const date = isDateShowing ? `${dueDate.getDate()} ${MONTH_NAMES[dueDate.getMonth()]}` : ``;
+  const time = isDateShowing ? formatTime(dueDate) : ``;
+  const repeatClass = Object.values(repeatingDays).some(Boolean) ? `card--repeat` : ``;
+  const deadlineClass = isExpired ? `card--deadline` : ``;
+  const archiveButtonInactiveClass = isArchive ? `` : `card__btn--disabled`;
+  const favoriteButtonInactiveClass = isFavorite ? `` : `card__btn--disabled`;
+
   return (
-    `<article class="card card--black">
+    `<article class="card card--${color} ${repeatClass} ${deadlineClass}">
       <div class="card__form">
         <div class="card__inner">
           <div class="card__control">
             <button type="button" class="card__btn card__btn--edit">
               edit
             </button>
-            <button type="button" class="card__btn card__btn--archive">
+            <button type="button" class="card__btn card__btn--archive ${archiveButtonInactiveClass}">
               archive
             </button>
             <button
               type="button"
-              class="card__btn card__btn--favorites card__btn--disabled"
+              class="card__btn card__btn--favorites ${favoriteButtonInactiveClass}"
             >
               favorites
             </button>
@@ -82,15 +37,15 @@ export const createTaskTemplate = () => {
             </svg>
           </div>
           <div class="card__textarea-wrap">
-            <p class="card__text">Example default task with default color.</p>
+          <p class="card__text">${description}</p>
           </div>
           <div class="card__settings">
             <div class="card__details">
               <div class="card__dates">
                 <div class="card__date-deadline">
                   <p class="card__input-deadline-wrap">
-                    <span class="card__date">23 September</span>
-                    <span class="card__time">16:15</span>
+                  <span class="card__date">${date}</span>
+                  <span class="card__time">${time}</span>
                   </p>
                 </div>
               </div>

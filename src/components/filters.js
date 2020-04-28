@@ -1,13 +1,15 @@
-export const getFilterElement = function (id, amount, isChecked = false, isDisabled = false) {
-  return `
-      <input
-        type="radio"
-        id="filter__${id.toLowerCase()}"
-        class="filter__input visually-hidden"
-        name="filter"
-        ${isChecked ? `checked` : ``}
-        ${isDisabled ? `disabled` : ``}
-      /><br />
-      <label for="filter__${id.toLowerCase()}" class="filter__label">${id} <span class="filter__${id}-count">${amount}</span></label>
-    `;
+export const createFilterMarkup = (filter, isChecked) => {
+  const {name, count} = filter;
+
+  return (
+    `<input
+      type="radio"
+      id="filter__${name}"
+      class="filter__input visually-hidden"
+      name="filter"
+      checked
+      ${isChecked ? `checked` : ``}
+    />
+    <label for="filter__${name}" class="filter__label">
+      ${name} <span class="filter__${name}-count">${count}</span></label>`);
 };
