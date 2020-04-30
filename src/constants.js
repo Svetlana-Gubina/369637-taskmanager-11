@@ -1,7 +1,16 @@
 export const HOURS_LIMIT = 23;
 export const MINUTES_LIMIT = 59;
-export const COLORS = [`black`, `yellow`, `blue`, `green`, `pink`];
 export const TAGS_SET = new Set([`cinema`, `practice`, `theory`, `intensive`, `homework`, `keks`]);
+
+export const COLOR = {
+  BLACK: `black`,
+  YELLOW: `yellow`,
+  BLUE: `blue`,
+  GREEN: `green`,
+  PINK: `pink`,
+};
+
+export const COLORS = Object.values(COLOR);
 
 export const DAYS = [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`];
 
