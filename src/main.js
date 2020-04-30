@@ -1,6 +1,6 @@
 import BoardComponent from './components/board.js';
 import FilterController from "./controllers/filter.js";
-import SiteMenuComponent from './components/menu.js';
+import SiteMenuComponent, {MenuItem} from './components/menu.js';
 import {generateTasks} from "./mock/task.js";
 import {Position, render} from "./utils/render.js";
 import BoardController from "./controllers/board.js";
@@ -10,7 +10,10 @@ const TASK_COUNT = 22;
 
 const siteMainElement = document.querySelector(`.main`);
 const siteHeaderElement = siteMainElement.querySelector(`.main__control`);
-render(siteHeaderElement, new SiteMenuComponent(), Position.BEFOREEND);
+const siteMenuComponent = new SiteMenuComponent();
+
+render(siteHeaderElement, siteMenuComponent, Position.BEFOREEND);
+
 
 const tasks = generateTasks(TASK_COUNT);
 const tasksModel = new TasksModel();
@@ -21,5 +24,14 @@ filterController.render();
 
 const boardComponent = new BoardComponent();
 render(siteMainElement, boardComponent, Position.BEFOREEND);
+
 const boardController = new BoardController(boardComponent, tasksModel);
-boardController.render(tasks);
+boardController.render();
+siteMenuComponent.setOnChange((menuItem) => {
+  switch (menuItem) {
+    case MenuItem.NEW_TASK:
+      siteMenuComponent.setActiveItem(MenuItem.TASKS);
+      boardController.createTask();
+      break;
+  }
+});
