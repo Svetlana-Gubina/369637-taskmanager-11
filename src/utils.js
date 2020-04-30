@@ -1,12 +1,8 @@
+import moment from "moment";
+
 export const Position = {
   AFTERBEGIN: `afterbegin`,
   BEFOREEND: `beforeend`
-};
-
-export const createElement = (template) => {
-  const newElement = document.createElement(`div`);
-  newElement.innerHTML = template;
-  return newElement.firstChild;
 };
 
 export const render = (container, element, place) => {
@@ -48,3 +44,36 @@ export const getRandomOfArray = (arr) => {
 };
 
 export const getRandomBoolean = () => Boolean(Math.round(Math.random()));
+
+export const createElement = (template) => {
+  const newElement = document.createElement(`div`);
+  newElement.innerHTML = template;
+
+  return newElement.firstChild;
+};
+
+export const getTasksByFilter = (tasks) => {
+  return tasks;
+};
+
+export const formatTime = (date) => {
+  return moment(date).format(`hh:mm`);
+};
+
+export const formatDate = (date) => {
+  return moment(date).format(`DD MMMM`);
+};
+
+export const isRepeating = (repeatingDays) => {
+  return Object.values(repeatingDays).some(Boolean);
+};
+
+export const isOverdueDate = (dueDate, date) => {
+  return dueDate < date && !isOneDay(date, dueDate);
+};
+
+export const isOneDay = (dateA, dateB) => {
+  const a = moment(dateA);
+  const b = moment(dateB);
+  return a.diff(b, `days`) === 0 && dateA.getDate() === dateB.getDate();
+};

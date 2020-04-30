@@ -1,6 +1,12 @@
-import AbstractComponent from './abstractComponent.js';
+import AbstractComponent from './abstract-component.js';
 
-export default class Menu extends AbstractComponent {
+export const MenuItem = {
+  NEW_TASK: `control__new-task`,
+  STATISTICS: `control__statistic`,
+  TASKS: `control__task`,
+};
+
+export default class SiteMenuComponent extends AbstractComponent {
   getTemplate() {
     return `<section class="control__btn-wrap">
     <input
@@ -29,6 +35,26 @@ export default class Menu extends AbstractComponent {
     <label for="control__statistic" class="control__label"
       >STATISTICS</label
     >
-  </section>`;
+    </section>`;
+  }
+
+  setActiveItem(menuItem) {
+    const item = this.getElement().querySelector(`#${menuItem}`);
+
+    if (item) {
+      item.checked = true;
+    }
+  }
+
+  setOnChange(handler) {
+    this.getElement().addEventListener(`change`, (evt) => {
+      if (evt.target.tagName !== `INPUT`) {
+        return;
+      }
+
+      const menuItem = evt.target.id;
+
+      handler(menuItem);
+    });
   }
 }
