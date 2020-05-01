@@ -1,4 +1,4 @@
-import TaskComponent from '../components/taskCard.js';
+import TaskComponent from '../components/task.js';
 import TaskEditComponent from '../components/editTaskCard.js';
 import {Position, render, replace, remove} from "../utils/render.js";
 import {COLOR} from "../constants.js";
