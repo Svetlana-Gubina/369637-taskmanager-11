@@ -8,7 +8,8 @@ import StatisticsComponent from "./components/statistics.js";
 import API from "./api.js";
 
 const AUTHORIZATION = `Basic dXNlckBwYXNzd29yZAo=`;
-const END_POINT = `https://11.ecmascript.pages.academy/task-manager`;
+const END_POINT = `https://htmlacademy-es-9.appspot.com/task-manager`;
+// const END_POINT = `https://11.ecmascript.pages.academy/task-manager`;
 
 const dateTo = new Date();
 const dateFrom = (() => {

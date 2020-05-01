@@ -84,9 +84,18 @@ export default class TaskController {
       evt.preventDefault();
       const formData = this._taskEditComponent.getData();
       const data = parseFormData(formData);
+      this._taskEditComponent.setData({
+        saveButtonText: `Saving...`,
+      });
       this._onDataChange(this, task, data);
     });
-    this._taskEditComponent.setDeleteButtonClickHandler(() => this._onDataChange(this, task, null));
+    this._taskEditComponent.setDeleteButtonClickHandler(() => {
+      this._taskEditComponent.setData({
+        deleteButtonText: `Deleting...`,
+      });
+
+      this._onDataChange(this, task, null);
+    });
 
     this._taskComponent.setArchiveButtonClickHandler(() => {
       const newTask = TaskModel.clone(task);
@@ -136,6 +145,10 @@ export default class TaskController {
     setTimeout(() => {
       this._taskEditComponent.getElement().style.animation = ``;
       this._taskComponent.getElement().style.animation = ``;
+      this._taskEditComponent.setData({
+        saveButtonText: `Save`,
+        deleteButtonText: `Delete`,
+      });
     }, SHAKE_ANIMATION_TIMEOUT);
   }
 
