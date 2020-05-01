@@ -247,7 +247,6 @@ export default class Statistics extends AbstractSmartComponent {
     this._dateTo = dateTo;
 
     super.rerender();
-
     this._renderCharts();
   }
 
